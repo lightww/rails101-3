@@ -15,9 +15,13 @@ class GroupsController < ApplicationController
     else
       render :new
     end
+  end
 
+  def show
+    @group = Group.find(params[:id])
 
   end
+
 
   private
 
