@@ -45,6 +45,28 @@ class GroupsController < ApplicationController
     flash[:alert]= "Group deleted"
   end
 
+  def join
+    @group = Group.find(params[:id])
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice] = "加入本讨论组成功"
+    else
+      flash[:warning] = "你已是本讨论组成员"
+    end
+    redirect_to group_path(@group)
+  end
+
+  def quit
+    @group = Group.find(params[:id])
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+      flash[:alert]="你已退出本讨论组！"
+    else
+      flash[:warning] = "你不是本讨论组成员，怎么退出！"
+    end
+    redirect_to group_path(@group)
+  end
+
 
   private
 
